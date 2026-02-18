@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danish | Creative Developer</title>
+<!-- jsPDF Library for generating CV on the fly -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
@@ -31,6 +33,7 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     overflow-x: hidden;
+    /* Animated Background */
     background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a, #172554);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
@@ -43,12 +46,14 @@ body {
 }
 
 
+/* Scrollbar Styling */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 
+/* Navigation */
 nav {
     position: fixed;
     width: 100%;
@@ -104,6 +109,7 @@ nav {
 .menu-toggle { display: none; color: white; font-size: 24px; cursor: pointer; }
 
 
+/* Sections */
 section {
     padding: 100px 10%;
     min-height: 100vh;
@@ -125,6 +131,7 @@ section {
 .section-title span { color: var(--primary); }
 
 
+/* Hero Section */
 .hero-container {
     display: flex;
     align-items: center;
@@ -200,6 +207,7 @@ section {
 }
 
 
+/* Buttons */
 .btn {
     padding: 12px 30px;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -233,6 +241,7 @@ section {
 }
 
 
+/* About Section */
 .about-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -248,6 +257,7 @@ section {
 }
 
 
+/* Skills Section */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -264,6 +274,7 @@ section {
     transition: 0.3s;
     position: relative;
     overflow: hidden;
+    cursor: default;
 }
 
 .skill-card:hover {
@@ -280,6 +291,7 @@ section {
     transition: 0.3s;
 }
 
+/* Hover Colors */
 .skill-card:hover i.fa-html5 { color: #e34c26; }
 .skill-card:hover i.fa-css3-alt { color: #264de4; }
 .skill-card:hover i.fa-js { color: #f0db4f; }
@@ -298,6 +310,7 @@ section {
 }
 
 
+/* Projects Section */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -333,6 +346,7 @@ section {
 .project-content p { color: var(--text-muted); font-size: 14px; margin-bottom: 15px; }
 
 
+/* Contact Section */
 .contact-box {
     background: rgba(255, 255, 255, 0.03);
     padding: 40px;
@@ -360,6 +374,7 @@ section {
 }
 
 
+/* Footer */
 footer {
     background: var(--footer-bg);
     position: relative;
@@ -511,6 +526,7 @@ footer {
 }
 
 
+
 #toast {
     visibility: hidden;
     min-width: 250px;
@@ -535,6 +551,7 @@ footer {
     opacity: 1;
     bottom: 50px;
 }
+
 
 #backToTop {
     position: fixed;
@@ -562,6 +579,7 @@ footer {
 }
 
 
+
 @media(max-width: 991px) {
     .hero-container { flex-direction: column-reverse; text-align: center; }
     .hero-text h1 { font-size: 40px; }
@@ -585,6 +603,7 @@ footer {
     .nav-links li { margin: 15px 0; }
     .footer-container { grid-template-columns: 1fr; }
 }
+
 
 
 .fade-in { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
@@ -625,8 +644,7 @@ footer {
         </div>
 
         <div class="hero-img-box">
-            
-            <img src="danish.jpeg" alt="Danish" class="hero-img" onerror="this.src='https://picsum.photos/seed/danish/400/500'">
+            <img src="danish.jpeg" alt="Danish" class="hero-img">
             <div class="hero-glow"></div>
         </div>
     </div>
@@ -643,7 +661,8 @@ footer {
             My interest in web development started back in 2023 when I decided to try editing custom themes — turns out hacking together HTML & CSS is fun! Since then, I've worked on various projects using PHP, MySQL, and JavaScript.
         </p>
         <div style="margin-top: 25px;">
-            <a href="cv.pdf" download class="btn" style="font-size: 14px; padding: 10px 20px;">
+            
+            <a href="#" onclick="generateAndDownloadCV(event)" class="btn" style="font-size: 14px; padding: 10px 20px;">
                 <i class="fas fa-download"></i> Download CV
             </a>
         </div>
@@ -672,29 +691,47 @@ footer {
     <h2 class="section-title">Recent <span>Projects</span></h2>
     <div class="projects-grid">
         <div class="project-card">
-            <img src="mall.png" class="project-img" alt="Project">
+            <img src="mall.png" class="project-img" alt="Mall Project">
             <div class="project-content">
                 <h3>Mall Store</h3>
-                <p>Mall management system built with HTML and css Javascrit </p>
+                <p>Mall management system built with HTML, CSS, and JavaScript.</p>
                 <a href="#" class="btn" style="font-size: 12px; padding: 8px 15px;">View Code</a>
             </div>
         </div>
         <div class="project-card">
-            <img src="organic.png" class="project-img" alt="Project">
+            <img src="organic.png" class="project-img" alt="Organic Project">
             <div class="project-content">
-                <h3>Star Organic Farm</h3>
-                <p>Star Organic built with HTML and css Javascrit</p>
+                <h3> Organic Farm</h3>
+                <p>Star Organic built with HTML, CSS and JavaScript.</p>
                 <a href="#" class="btn" style="font-size: 12px; padding: 8px 15px;">View Code</a>
             </div>
         </div>
         <div class="project-card">
-            <img src="personal.png" class="project-img" alt="Project">
+            <img src="personal.png" class="project-img" alt="Portfolio Project">
             <div class="project-content">
                 <h3>Portfolio Website</h3>
                 <p>My first portfolio using pure HTML and CSS.</p>
                 <a href="#" class="btn" style="font-size: 12px; padding: 8px 15px;">View Code</a>
             </div>
         </div>
+
+         <div class="project-card">
+     <img src="star farm.jpg" class="project-img" alt="Portfolio Project">
+     <div class="project-content">
+         <h3>Star Organic Farm</h3>
+         <p>My first Star Organic Farm using pure HTML and CSS.</p>
+         <a href="#" class="btn" style="font-size: 12px; padding: 8px 15px;">View Code</a>
+     </div>
+ </div>
+
+  <div class="project-card">
+     <img src="calculator.jpg" class="project-img" alt="Portfolio Project">
+     <div class="project-content">
+         <h3>Calculator Project</h3>
+         <p>My first Calculator using pure HTML and CSS. Javascript</p>
+         <a href="#" class="btn" style="font-size: 12px; padding: 8px 15px;">View Code</a>
+     </div>
+
     </div>
 </section>
 
@@ -780,6 +817,7 @@ footer {
 
 <script>
 
+// Mobile Menu Logic
 const menu = document.getElementById('mobile-menu');
 const nav = document.getElementById('nav-list');
 const links = document.querySelectorAll('.nav-links li a');
@@ -805,6 +843,7 @@ links.forEach(link => {
 });
 
 
+
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if(entry.isIntersecting){
@@ -814,6 +853,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
 
 
 const backToTopBtn = document.getElementById("backToTop");
@@ -830,13 +870,13 @@ backToTopBtn.addEventListener("click", function(){
     window.scrollTo({top: 0, behavior: 'smooth'});
 });
 
+
 function showToast(message) {
     const toast = document.getElementById("toast");
     toast.innerText = message;
     toast.className = "show";
     setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
 }
-
 
 
 document.getElementById('contactForm').addEventListener('submit', function(e){
@@ -846,7 +886,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
     
     btn.innerText = "Sending...";
 
-    
     setTimeout(() => {
         showToast("Message Sent Successfully!");
         btn.innerText = "Message Sent!";
@@ -859,6 +898,75 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
         }, 3000);
     }, 1500);
 });
+
+
+
+
+function generateAndDownloadCV(event) {
+    
+    event.preventDefault();
+
+   
+    showToast("Generating CV, please wait...");
+
+   
+    const { jsPDF } = window.jspdf;
+    
+    
+    const doc = new jsPDF();
+
+    
+    doc.setFontSize(22);
+    doc.setTextColor(0, 0, 0); 
+    doc.text("MUHAMMAD DANISH", 20, 20);
+    
+    doc.setFontSize(14);
+    doc.setTextColor(79, 172, 254); 
+    doc.text("Frontend Developer | Creative Designer", 20, 30);
+
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(0, 0, 0);
+    doc.line(20, 35, 190, 35);
+
+    
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Experience & Education", 20, 50);
+    
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+    doc.text("• Advanced Diploma in Software Engineering (ADSE) - Aptech", 25, 60);
+    doc.text("• Frontend Development Specialist", 25, 68);
+    doc.text("• Experience in HTML, CSS, JavaScript, PHP, and Laravel.", 25, 76);
+
+    
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Technical Skills", 20, 95);
+
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+    doc.text("HTML5, CSS3, JavaScript, Bootstrap, PHP, MySQL, Laravel, Git", 25, 105);
+
+   
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Contact Information", 20, 125);
+
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+    doc.text("Email: danish22@gmail.com", 25, 135);
+    doc.text("Phone: +92 300 1234567", 25, 143);
+    doc.text("Location: Karachi, Pakistan", 25, 151);
+
+    
+    doc.save("Muhammad_Danish_CV.pdf");
+    
+    
+    setTimeout(() => {
+        showToast("CV Downloaded Successfully!");
+    }, 1000);
+}
 </script>
 
 </body>
